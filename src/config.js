@@ -7,62 +7,115 @@ module.exports = {
   GUILD_ID: process.env.DISCORD_GUILD_ID || '1410778472032370700',
 
   CHANNELS: {
-    WELCOME:          process.env.CH_WELCOME          || '1450106084147859529',
-    LOG:              process.env.CH_LOG               || '1410803080374649005',
-    GENERAL:          process.env.CH_GENERAL           || '',
-    RULES:            process.env.CH_RULES             || '',
-    INTRODUCTION:     process.env.CH_INTRODUCTION      || '',
-    VERIFY:           process.env.CH_VERIFY            || '',
-    ANNOUNCEMENTS:    process.env.CH_ANNOUNCEMENTS     || '',
-    MOD_REPORT:       process.env.CH_MOD_REPORT        || '1410803080374649005',
-    STAFF_CHAT:       process.env.CH_STAFF_CHAT        || '',
-    GM_GN:            process.env.CH_GMGN              || '',
-    X_TASKS:          process.env.CH_X_TASKS           || '',
-    MEME:             process.env.CH_MEME              || '',
-    CONTENT_CREATION: process.env.CH_CONTENT           || '',
-    CONTRIBUTOR_CHAT: process.env.CH_CONTRIBUTOR_CHAT  || '',
-    CONTRIBUTOR_RPT:  process.env.CH_CONTRIBUTOR_RPT   || '',
-    COMMUNITY_HANGOUT:process.env.CH_HANGOUT           || '',
-    MINI_UPDATES:     process.env.CH_MINI_UPDATES      || '',
-    INVITE_TRACKING:  process.env.CH_INVITES           || '',
-    SUPPORT:          process.env.CH_SUPPORT           || '',
-    BLOCKED: [],
+    // ── Onboarding ─────────────────────────────────────────
+    WELCOME:            '1450106084147859529',
+    VERIFY:             '1450093978727743488',
+    RULES:              '1410778473756364841',
+    GET_STARTED:        '1450093980896460842',
+    START_HERE:         '1492635538589618269',
+    INTRODUCTION:       '1492635976424751354',
+    WHAT_IS_NEXTGEN:    '1410937987260354560',
+    YOUR_PATH:          '1492636481221693530',
+
+    // ── Community ──────────────────────────────────────────
+    ANNOUNCEMENTS:      '1410778473756364842',
+    GENERAL:            '1410778473756364845',
+    FAQ:                '1450590295191457792',
+    QUESTIONS:          '1492637326541590790',
+    NETWORKING:         '1492637614392737902',
+    GAMES:              '1438817965180059731',
+    MEME:               '',
+    WINS:               '1492637188817682442',
+    CONTEST_SUBMISSION: '1491456083267420342',
+
+    // ── X Engagement ──────────────────────────────────────
+    X_TASKS:            '1411332259738554469',
+
+    // ── Invites ────────────────────────────────────────────
+    INVITE_TRACKING:    '1450208482350469253',
+
+    // ── Content creation ───────────────────────────────────
+    CONTENT_CREATION:   '1492640986025693255',
+
+    // ── Elite ──────────────────────────────────────────────
+    ELITE_START_HERE:   '1473345644310827253',
+    ELITE_CHAT:         '1492641798718488738',
+    ELITE_RESOURCES:    '1455456984194355232',
+    ELITE_AI:           '1456312426562584818',
+    ELITE_WEB3:         '1492640831163597062',
+    ELITE_FREELANCING:  '1492641140149588138',
+    ELITE_CONTENT:      '1492640986025693255',
+    BUILD_IN_PUBLIC:    '1492641295859191819',
+    ELITE_PROJECTS:     '1492641425995600114',
+    ELITE_FEEDBACK:     '1492641537626996920',
+    ELITE_OPPORTUNITIES:'1492641695370842242',
+    ELITE_CHECKIN:      '1473344680182939659',
+    ELITE_VC:           '1460335608202530849',
+    WHY_ELITE:          '1492638554139004968',
+    ELITE_PREVIEW:      '1492638906808795188',
+    HOW_TO_JOIN_ELITE:  '1492639022668054689',
+
+    // ── Design / Learning ─────────────────────────────────
+    DESIGNER:           '1474333413363290182',
+    DESIGNER_CHAT:      '1474726383228948551',
+    AI_TUTOR:           '1478882761916809300',
+    VIBE_CODING:        '1472703337467088957',
+
+    // ── Voice ──────────────────────────────────────────────
+    COMMUNITY_HANGOUT:  '1410778473756364849', // Lounge
+    AMA_STAGE:          '1414642611762892801',
+
+    // ── Staff ──────────────────────────────────────────────
+    STAFF_ANNOUNCEMENT: '1465335978238541969',
+    STAFF_CHAT:         '1465336091304394763',
+    MOD_REPORT:         '1434929833472950324', // Command Center
   },
 
-  // Channels the bot never sends messages in
-  BLOCKED_CHANNELS: (process.env.BLOCKED_CHANNELS || '').split(',').filter(Boolean),
+  // Bot NEVER posts in these
+  BLOCKED_CHANNELS: [
+    '1465335978238541969', // Staff Announcement (staff only)
+  ],
 
-  // Channels that are read-only (bot listens but doesn't chat)
-  SILENT_CHANNELS: (process.env.SILENT_CHANNELS || '').split(',').filter(Boolean),
+  // Bot reads but doesn't casually chat in these
+  SILENT_CHANNELS: [
+    '1465335978238541969', // Staff Announcement
+    '1450093980896460842', // Get Started (info only)
+    '1492635538589618269', // Start Here
+    '1410937987260354560', // What is Nextgen
+    '1492636481221693530', // Your Path
+    '1492638554139004968', // Why Elite
+    '1492638906808795188', // Elite Preview
+    '1492639022668054689', // How to Join Elite
+    '1473345644310827253', // Elite Start Here
+    '1455456984194355232', // Elite Resources
+    '1410778473756364841', // Rules
+    '1410778473756364842', // Announcements
+  ],
 
   ROLES: {
     ADMIN:       process.env.ADMIN_ROLE_ID    || '',
     VERIFIED:    process.env.VERIFIED_ROLE_ID || '',
+    ELITE:       '1434195823960264805',
     CONTRIBUTOR: process.env.CONTRIBUTOR_ROLE || '',
-    MUTED:       process.env.MUTED_ROLE       || '',
   },
 
-  // Bot identity — filled via env so no rebuild needed when customizing
-  BOT_NAME:    process.env.BOT_NAME    || 'NEXTGEN',
-  BOT_COLOR:   parseInt(process.env.BOT_COLOR || '5865F2', 16),
-  COMMUNITY:   process.env.COMMUNITY_NAME || 'NEXTGEN',
+  BOT_NAME:         'NEXTGEN',
+  BOT_COLOR:        0x5865F2,
+  COMMUNITY:        'NEXTGEN',
+  BOT_CONTEXT:      process.env.BOT_CONTEXT || 'NEXTGEN — a community for builders, creators, and web3 learners. Features an Elite membership tier for serious builders.',
 
-  // X / Twitter
-  X_ACCOUNT:        process.env.X_ACCOUNT        || '',
+  X_ACCOUNT:        process.env.X_ACCOUNT           || '',
   X_BEARER:         process.env.TWITTER_BEARER_TOKEN || '',
-  OFFICIAL_INVITE:  process.env.OFFICIAL_INVITE  || '',
+  OFFICIAL_INVITE:  process.env.OFFICIAL_INVITE      || '',
 
-  // Points
   POINTS: { LIKE: 1, COMMENT: 2, RETWEET: 3, QUOTE: 3 },
 
-  // Safe domains (never delete links from these)
   SAFE_DOMAINS: [
     'x.com','twitter.com','tenor.com','giphy.com','imgur.com',
     'youtube.com','youtu.be','github.com','linkedin.com',
     'media.discordapp.net','cdn.discordapp.com',
   ],
 
-  // Phishing patterns
   PHISHING_PATTERNS: [
     /d[il1]sc[o0]rd[\-.]?(?:gift|nitro)/i,
     /free[\-\s]?n[i1]tro/i,
@@ -71,7 +124,6 @@ module.exports = {
     /(?:discord|steam|roblox)[\-.](?:gift|promo|verify)\./i,
   ],
 
-  // Timeout durations
   TIMEOUTS: {
     FIRST:  5  * 60 * 1000,
     SECOND: 60 * 60 * 1000,
@@ -80,15 +132,11 @@ module.exports = {
 
   X_POLL_INTERVAL_MS: 5 * 60 * 1000,
 
-  // Crons
   CRONS: {
-    STAFF_REMINDER:        process.env.CRON_STAFF    || '30 8 * * *',
-    CONTRIBUTOR_MOTIVATE:  process.env.CRON_CONTRIB  || '0 9 * * *',
-    GENERAL_ENGAGE:        process.env.CRON_ENGAGE   || '0 */4 * * *',
-    CONVO_STARTER:         process.env.CRON_CONVO    || '20 */3 * * *',
-    CONTRIBUTOR_SUMMARY:   process.env.CRON_SUMMARY  || '0 8 * * *',
-    GAME_NIGHT_ANNOUNCE:   process.env.CRON_GAME     || '0 9 * * 2,4,5',
-    GAME_NIGHT_REMINDER:   process.env.CRON_GAME_REM || '30 14 * * 2,4,5',
-    XSPACE_REMINDER:       process.env.CRON_XSPACE   || '0 9 * * 3',
+    STAFF_REMINDER:       '30 8 * * *',
+    CONTRIBUTOR_MOTIVATE: '0 9 * * *',
+    GENERAL_ENGAGE:       '0 */4 * * *',
+    CONVO_STARTER:        '20 */3 * * *',
+    CONTRIBUTOR_SUMMARY:  '0 8 * * *',
   },
 };
