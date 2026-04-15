@@ -99,6 +99,7 @@ client.once('ready', async () => {
   startXMonitor(client);
   startScheduledTasks();
   await setupVerification(client);
+  await setupEliteWelcome(client);
 
   client.user.setPresence({
     activities: [{ name: `${config.COMMUNITY} Community`, type: 3 }],
@@ -139,6 +140,93 @@ async function setupVerification(client) {
 }
 
 // ═══════════════════════════════════════════════════════════════
+// ELITE WELCOME — posts pinned announcement in elite-start-here
+// ═══════════════════════════════════════════════════════════════
+
+async function setupEliteWelcome(client) {
+  const guild = client.guilds.cache.get(config.GUILD_ID);
+  if (!guild) return;
+
+  const ch = guild.channels.cache.get(config.CHANNELS.ELITE_START_HERE);
+  if (!ch) return;
+
+  try {
+    const messages = await ch.messages.fetch({ limit: 20 });
+    const existing = messages.find(m => m.author.id === client.user.id && m.content.includes('WELCOME TO ELITE'));
+    if (existing) { console.log('  Elite welcome exists'); return; }
+  } catch {}
+
+  await ch.send({
+    content:
+`#  WELCOME TO ELITE <:NEXTGENLORD:1434817166254936198> <a:Celebrate:1260604777650327653> 
+
+
+You're now inside NEXTGEN Elite, where things move differently.
+This is not just access…
+This is responsibility.
+
+
+**HOW ELITE WORKS**
+
+Here's your environment:
+
+📌 <#1473345644310827253> 
+→ Read this first before anything else.
+
+📚 <#1455456984194355232>
+→ Structured materials to help you learn faster and smarter will be dropped here 
+
+ <#1456312426562584818>   <#1492640831163597062>  <#1492640986025693255>  <#1492641140149588138> 
+→ Choose your path and focus. Don't try to do everything. There you can have talks with other Elites and focus on whatever you want to learn. If you're confused on any niche, tag admins, we'll be there to help.
+
+🛠️ <#1492641295859191819> 
+→ Share your daily progress (this is key)
+
+📂 <#1492641425995600114> 
+→ Drop what you've built, design, content you have created.
+
+<#1492641537626996920> 
+→ Get real feedback to improve faster
+
+💼 <#1492641695370842242> 
+→ Jobs, gigs, and collaborations (stay ready)
+
+<#1492641798718488738> 
+→ High-level conversations only
+
+<#1460335608202530849>
+→ Live sessions, trainings, and strategy
+
+
+**IMPORTANT RULES FOR ELITE**
+
+• Don't stay silent
+• Don't just consume, execute
+• Stay consistent
+• Ask questions when stuck
+
+
+**YOUR FIRST TASK**
+
+1. Go to <#1492641798718488738>
+2. Introduce yourself again (Elite level)
+3. State:
+   • Your focus
+   • Your goal
+   • What you're working on
+4. Add authentication app to your Discord to take moderation actions
+
+
+You're no longer in the same room as everyone else. Now it's time to prove why you belong here.
+
+<@&1434195823960264805>`,
+    allowedMentions: { roles: ['1434195823960264805'] },
+  });
+
+  console.log('  Elite welcome posted');
+}
+
+// ═══════════════════════════════════════════════════════════════
 // MEMBER JOIN
 // ═══════════════════════════════════════════════════════════════
 
@@ -151,9 +239,9 @@ client.on('guildMemberAdd', async (member) => {
     const ch = member.guild.channels.cache.get(welcomeChannelId);
     if (ch) {
       const welcomes = [
-        `Hey <@${member.id}>, welcome to ${config.COMMUNITY}! Good to have you here.\n\nIntroduce yourself${config.CHANNELS.INTRODUCTION ? ` in <#${config.CHANNELS.INTRODUCTION}>` : ''} and get verified${config.CHANNELS.VERIFY ? ` in <#${config.CHANNELS.VERIFY}>` : ''} to unlock everything. If you have questions, just ask.`,
-        `<@${member.id}> just joined, welcome! ${config.CHANNELS.VERIFY ? `Head over to <#${config.CHANNELS.VERIFY}> to get verified` : 'Check the channels to get started'} and make yourself at home.`,
-        `Welcome <@${member.id}>! Glad you're here. Take a look around and${config.CHANNELS.INTRODUCTION ? ` drop an intro in <#${config.CHANNELS.INTRODUCTION}>` : ' say hi'}. We're friendly around here.`,
+        `Hey <@${member.id}>, welcome to NEXTGEN! Good to have you here.\n\nStart by verifying in <#${config.CHANNELS.VERIFY}>, then introduce yourself in <#${config.CHANNELS.INTRODUCTION}>. Check out <#${config.CHANNELS.GET_STARTED}> to see how things work around here.`,
+        `<@${member.id}> just joined, welcome to NEXTGEN! Head to <#${config.CHANNELS.VERIFY}> first to unlock everything, then drop an intro in <#${config.CHANNELS.INTRODUCTION}>. We're glad you're here.`,
+        `Welcome <@${member.id}>! NEXTGEN is the place for builders and creators serious about leveling up. Get verified in <#${config.CHANNELS.VERIFY}> and check out <#${config.CHANNELS.START_HERE}> to get oriented. See you around.`,
       ];
       await ch.send(pick(welcomes));
     }
@@ -162,9 +250,18 @@ client.on('guildMemberAdd', async (member) => {
   // Welcome DM
   try {
     await member.user.send(
-      `Hey ${member.user.displayName}, welcome to **${config.COMMUNITY}**!\n\n` +
-      `We're glad you joined. ${config.CHANNELS.VERIFY ? 'Get verified to unlock all channels.' : 'Check the channels to get started.'}\n\n` +
-      `If you have any questions, just ask in the server or ping a staff member. See you around.`
+      `Hey ${member.user.displayName}, welcome to **NEXTGEN**!\n\n` +
+      `NEXTGEN is a community for builders, creators, and people serious about web3 and digital skills. ` +
+      `You're in the right place.\n\n` +
+      `**Get started:**\n` +
+      `1. Verify yourself in <#${config.CHANNELS.VERIFY}>\n` +
+      `2. Read <#${config.CHANNELS.GET_STARTED}> to understand how things work\n` +
+      `3. Introduce yourself in <#${config.CHANNELS.INTRODUCTION}>\n\n` +
+      `**Earn points:**\n` +
+      `Link your X account with \`/linkx\`, engage with official posts, and react to claim points. ` +
+      `Use \`/points\` to check your score.\n\n` +
+      `If you're serious about leveling up, look into NEXTGEN Elite. Ask about it in the server.\n\n` +
+      `See you in there.`
     );
   } catch {}
 
